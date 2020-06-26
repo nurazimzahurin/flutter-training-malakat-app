@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_training/components/loading.dart';
 import 'package:flutter_training/services/auth.dart';
 
 class Register extends StatefulWidget {
@@ -17,9 +18,11 @@ class _RegisterState extends State<Register> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading == true ? Loading() : Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -134,8 +137,16 @@ class _RegisterState extends State<Register> {
                   width: double.infinity,
                   child: FlatButton(
                     onPressed: () async {
+                      
+                      setState(() {
+                        loading = true;
+                      });
 
                       if(_emailController.text == '' || _passwordController.text == ''){
+                        setState(() {
+                          loading = false;
+                        });
+
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -152,13 +163,17 @@ class _RegisterState extends State<Register> {
                       if (result == 'success') {
                         Navigator.pushReplacementNamed(context, '/home');
                       }else{
+                        setState(() {
+                          loading = false;
+                        });
+
                         var error = result;
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: Text('Oops'),
-                                content: Text(error, style: TextStyle(color: Colors.red, fontSize: 18)),
+                                content: Text(error ?? 'Network error', style: TextStyle(color: Colors.red, fontSize: 18)),
                               );
                             });
                         return;

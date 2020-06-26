@@ -38,6 +38,7 @@ dev_dependencies:
   image_picker: ^0.6.7+2
   path_provider: ^1.6.9
   shared_preferences:
+  flutter_spinkit: "^4.1.2"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
